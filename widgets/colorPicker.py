@@ -3,9 +3,10 @@ from PyQt6 import uic, QtWidgets, QtGui
 from PyQt6.QtWidgets import QColorDialog, QApplication
 from PyQt6.QtCore import pyqtSignal, Qt, QTimer
 from baseFunctions.mouse import mouseMove
+from baseFunctions.utils import *
 
 
-class ColorPicker(QtWidgets.QWidget, mouseMove):
+class ColorPicker(QtWidgets.QWidget, mouseMove,UIScaler):
     deleteRequest = pyqtSignal(object)
 
     def __init__(self):
@@ -15,10 +16,14 @@ class ColorPicker(QtWidgets.QWidget, mouseMove):
         baseDir = os.path.dirname(__file__)
         ui_path = os.path.normpath(os.path.join(baseDir, '..', 'data', 'ui', 'colorPicker.ui'))
         uic.loadUi(ui_path, self)
+        apply_adaptive_geometry(self, 350, 450)
+
 
         # 2. Настройки окна (Без рамок, прозрачный фон, поверх всех окон)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.customContextMenuRequested.connect(self.show_context_menu)
         self.oldPos = None
         self.setWindowFlags(
             Qt.WindowType.Window |
@@ -132,3 +137,32 @@ class ColorPicker(QtWidgets.QWidget, mouseMove):
         self.colorHex.setText(last_color)
         self.colorPreview.setStyleSheet(f"background-color: {last_color}; border-radius: 5px;")
         self.update_history_ui()
+
+    def show_context_menu(self, pos):
+        menu = QtWidgets.QMenu(self)
+        menu.setStyleSheet("""
+            QMenu { background-color: #18181c; color: white; border: 1px solid #333; }
+            QMenu::item:selected { background-color: #3d3d40; }
+        """)
+
+        show_main = menu.addAction("Открыть меню")
+        menu.addSeparator()
+        copy_hex = menu.addAction("Копировать HEX")
+        remove_widget = menu.addAction("Удалить виджет")
+
+        action = menu.exec(self.mapToGlobal(pos))
+
+        if action == show_main:
+            if hasattr(self, 'main_app') and self.main_app is not None:
+                try:
+                    self.main_app.show()
+                    self.main_app.raise_()
+                    self.main_app.activateWindow()
+                except Exception as e:
+                    print(f"Ошибка вызова меню: {e}")
+        elif action == copy_hex:
+            self.copy_to_clipboard()
+        elif action == remove_widget:
+            if hasattr(self, 'main_app'):
+                self.main_app.on_widget_closed(self)
+            self.close()
