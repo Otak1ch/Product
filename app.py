@@ -12,7 +12,6 @@ from widgets.linkWidget import LinkWidget
 from baseFunctions.mouse import mouseMove
 from baseFunctions.utils import UIScaler, apply_adaptive_geometry
 
-
 class MainWindow(QWidget, mouseMove):
     def __init__(self):
         super().__init__()

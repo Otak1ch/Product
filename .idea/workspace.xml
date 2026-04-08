@@ -4,19 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e75ae295-352d-4737-9235-c7465f567c0f" name="Changes" comment="structured files, first widget, connected JSON">
-      <change afterPath="$PROJECT_DIR$/baseFunctions/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/widgets/linkWidget.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/baseFunctions/mouse.py" beforeDir="false" afterPath="$PROJECT_DIR$/baseFunctions/mouse.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/ui/app.ui" beforeDir="false" afterPath="$PROJECT_DIR$/data/ui/app.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/ui/colorPicker.ui" beforeDir="false" afterPath="$PROJECT_DIR$/data/ui/colorPicker.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/ui/firstWidget.ui" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/widgets/colorPicker.py" beforeDir="false" afterPath="$PROJECT_DIR$/widgets/colorPicker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/widgets/firstWidget.py" beforeDir="false" />
-    </list>
+    <list default="true" id="e75ae295-352d-4737-9235-c7465f567c0f" name="Changes" comment="structured files, first widget, connected JSON" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,28 +43,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.app.executor": "Run",
-    "Python.closeBtn.executor": "Run",
-    "Python.colorPicker.executor": "Run",
-    "Python.firstWidget.executor": "Run",
-    "Python.linkWidget.executor": "Run",
-    "Python.mouse.executor": "Run",
-    "Python.utils.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.app.executor&quot;: &quot;Run&quot;,
+    &quot;Python.closeBtn.executor&quot;: &quot;Run&quot;,
+    &quot;Python.colorPicker.executor&quot;: &quot;Run&quot;,
+    &quot;Python.firstWidget.executor&quot;: &quot;Run&quot;,
+    &quot;Python.linkWidget.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mouse.executor&quot;: &quot;Run&quot;,
+    &quot;Python.utils.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\College\Project\Project\data" />
@@ -105,6 +93,7 @@
       <workItem from="1774116605463" duration="3496000" />
       <workItem from="1774675222280" duration="194000" />
       <workItem from="1774675444186" duration="8818000" />
+      <workItem from="1775631512198" duration="299000" />
     </task>
     <task id="LOCAL-00001" summary="structured files, first widget, connected JSON">
       <option name="closed" value="true" />
@@ -122,7 +111,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774675592782</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="structured files, first widget, connected JSON">
+      <option name="closed" value="true" />
+      <created>1775631639393</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1775631639393</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
