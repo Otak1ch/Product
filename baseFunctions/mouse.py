@@ -1,58 +1,34 @@
-from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtCore, QtWidgets
 
 
 class mouseMove:
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.setMouseTracking(True)
-        self.resizing = False
-        self.oldPos = None
-        self.margin = 10
+    def __init__(self, widget):
+        self.widget = widget
+        self.drag_start_pos = None
 
-    def mousePressEvent(self, event):
+    def handle_press(self, event):
+        # Реагируем ТОЛЬКО на левую кнопку мыши
         if event.button() == QtCore.Qt.MouseButton.LeftButton:
-            if self.cursor().shape() != QtCore.Qt.CursorShape.ArrowCursor:
-                self.resizing = True
-            else:
-                self.resizing = False
-                self.oldPos = event.globalPosition().toPoint()
+            child = self.widget.childAt(event.position().toPoint())
+            # Если нажали на кнопку, список или поле ввода — не начинаем тащить
+            if isinstance(child, (QtWidgets.QPushButton, QtWidgets.QListWidget,
+                                  QtWidgets.QLineEdit, QtWidgets.QAbstractItemView)):
+                return False
 
-    def mouseMoveEvent(self, event):
-        # --- ЛОГИКА ИЗМЕНЕНИЯ КУРСОРА ---
-        if not event.buttons():
-            pos = event.pos()
-            is_right = pos.x() > self.width() - self.margin
-            is_bottom = pos.y() > self.height() - self.margin
+            self.drag_start_pos = event.globalPosition().toPoint()
+            event.accept()
+            return True
+        return False
 
-            if is_right and is_bottom:
-                self.setCursor(QtCore.Qt.CursorShape.SizeFDiagCursor)
-            elif is_right:
-                self.setCursor(QtCore.Qt.CursorShape.SizeHorCursor)
-            elif is_bottom:
-                self.setCursor(QtCore.Qt.CursorShape.SizeVerCursor)
-            else:
-                self.setCursor(QtCore.Qt.CursorShape.ArrowCursor)
-            return
+    def handle_move(self, event):
+        if self.drag_start_pos is not None:
+            current_pos = event.globalPosition().toPoint()
+            delta = current_pos - self.drag_start_pos
+            self.widget.move(self.widget.pos() + delta)
+            self.drag_start_pos = current_pos
+            event.accept()
+            return True
+        return False
 
-        # --- ЛОГИКА ИЗМЕНЕНИЯ РАЗМЕРА ---
-        if self.resizing:
-            pos = event.pos()
-            new_w = max(150, pos.x())
-            new_h = max(100, pos.y())
-            self.setFixedSize(new_w, new_h)
-
-        # --- ЛОГИКА ПЕРЕМЕЩЕНИЯ ---
-        elif self.oldPos is not None:
-            currentPos = event.globalPosition().toPoint()
-            delta = currentPos - self.oldPos
-            self.move(self.pos() + delta)
-            self.oldPos = currentPos
-
-    def mouseReleaseEvent(self, event):
-        # --- СБРОС СОСТОЯНИЙ И КУРСОРA ---
-        self.oldPos = None
-        self.resizing = False
-        self.setCursor(QtCore.Qt.CursorShape.ArrowCursor)
-
-        if hasattr(self, 'save_session'):
-            self.save_session()
+    def handle_release(self):
+        self.drag_start_pos = None

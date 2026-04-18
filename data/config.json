@@ -1,7 +1,78 @@
 {
     "main_window": {
-        "x": 794,
-        "y": 316
+        "x": 58,
+        "y": 73
     },
-    "opened_widgets": []
+    "opened_widgets": [
+        {
+            "type": "LinkWidget",
+            "x": 928,
+            "y": 393
+        },
+        {
+            "type": "ColorPicker",
+            "x": 1181,
+            "y": 40
+        },
+        {
+            "type": "TodoWidget",
+            "x": 1202,
+            "y": 409
+        }
+    ],
+    "persistent_data": {
+        "TodoWidget": [],
+        "ColorPicker": {
+            "history": [
+                "#058BD8",
+                "#848484",
+                "#6ECCEE",
+                "#303030",
+                "#303030"
+            ],
+            "current": "#058BD8"
+        },
+        "LinkWidget": [
+            {
+                "title": "ютуб",
+                "url": "www.youtube.com"
+            }
+        ]
+    },
+    "last_positions": {
+        "TodoWidget": {
+            "x": 1178,
+            "y": 404
+        },
+        "ColorPicker": {
+            "x": 1181,
+            "y": 40
+        },
+        "LinkWidget": {
+            "x": 1206,
+            "y": 676
+        }
+    },
+    "last_geometries": {
+        "TodoWidget": {
+            "type": "TodoWidget",
+            "x": 1175,
+            "y": 94,
+            "w": 306,
+            "h": 242
+        },
+        "ColorPicker": {
+            "type": "ColorPicker",
+            "x": 1163,
+            "y": 356,
+            "w": 363,
+            "h": 200
+        },
+        "LinkWidget": {
+            "x": 1156,
+            "y": 650,
+            "w": 354,
+            "h": 260
+        }
+    }
 }

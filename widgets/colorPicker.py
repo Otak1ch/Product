@@ -1,168 +1,80 @@
 import os
 from PyQt6 import uic, QtWidgets, QtGui
 from PyQt6.QtWidgets import QColorDialog, QApplication
-from PyQt6.QtCore import pyqtSignal, Qt, QTimer
+from PyQt6.QtCore import Qt
 from baseFunctions.mouse import mouseMove
-from baseFunctions.utils import *
+from baseFunctions.utils import UIScaler
 
-
-class ColorPicker(QtWidgets.QWidget, mouseMove,UIScaler):
-    deleteRequest = pyqtSignal(object)
-
-    def __init__(self):
+class ColorPicker(QtWidgets.QWidget, UIScaler):
+    def __init__(self, main_app=None):
         super().__init__()
+        self.main_app = main_app
+        # Инициализируем логику перемещения
+        self.mouse_move = mouseMove(self)
 
-        # 1. Загрузка интерфейса
         baseDir = os.path.dirname(__file__)
-        ui_path = os.path.normpath(os.path.join(baseDir, '..', 'data', 'ui', 'colorPicker.ui'))
-        uic.loadUi(ui_path, self)
-        apply_adaptive_geometry(self, 350, 450)
+        uic.loadUi(os.path.join(baseDir, '..', 'data', 'ui', 'colorPicker.ui'), self)
 
+        if hasattr(self, 'mainFrame'):
+            self.mainFrame.setObjectName("colorMainFrame")
+            self.mainFrame.setStyleSheet(
+                "#colorMainFrame { background-color: #18181c; border-radius: 15px; border: 1px solid #333; }")
 
-        # 2. Настройки окна (Без рамок, прозрачный фон, поверх всех окон)
-        self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-        self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
-        self.customContextMenuRequested.connect(self.show_context_menu)
-        self.oldPos = None
-        self.setWindowFlags(
-            Qt.WindowType.Window |
-            Qt.WindowType.CustomizeWindowHint |
-            Qt.WindowType.WindowStaysOnBottomHint |
-            Qt.WindowType.FramelessWindowHint
-        )
 
-        # 3. Данные
         self.history = ["#303030"] * 5
         self.history_buttons = [self.clr1, self.clr2, self.clr3, self.clr4, self.clr5]
 
-        # 4. Инициализация коннектов
-        self.setup_connections()
-        self.update_history_ui()
-
-    def setup_connections(self):
-        """Привязка событий к функциям"""
         self.btnPick.clicked.connect(self.pick_color)
-        self.colorHex.selectionChanged.connect(self.copy_to_clipboard)
         for btn in self.history_buttons:
             btn.clicked.connect(self.use_history_color)
 
-    # --- ЛОГИКА ВЫБОРА ЦВЕТА ---
+    # Методы событий мыши перенаправляем в наш класс-помощник
+    def mousePressEvent(self, event):
+        if not self.mouse_move.handle_press(event):
+            super().mousePressEvent(event)
 
-    def pick_color(self):
-        """Выбор нового цвета"""
-        initial_color = QtGui.QColor(self.colorHex.text() if self.colorHex.text() else "#303030")
-        color = QColorDialog.getColor(initial_color, self, "Выбор цвета")
+    def mouseMoveEvent(self, event):
+        if not self.mouse_move.handle_move(event):
+            super().mouseMoveEvent(event)
 
-        if color.isValid():
-            hex_name = color.name().upper()
+    def mouseReleaseEvent(self, event):
+        self.mouse_move.handle_release()
+        if self.main_app: self.main_app.save_session()
+        super().mouseReleaseEvent(event)
 
-            # 1. Визуально отображаем
-            self.colorHex.setText(hex_name)
-            self.colorPreview.setStyleSheet(f"background-color: {hex_name}; border-radius: 5px;")
-
-            # 2. Обновляем историю (только для новых цветов из палитры)
-            self.add_to_history(hex_name)
-
-            # 3. Копируем
-            self.copy_to_clipboard()
+    def resizeEvent(self, event):
+        if hasattr(self, 'mainFrame'): self.mainFrame.setGeometry(0, 0, self.width(), self.height())
+        super().resizeEvent(event)
 
     def apply_new_color(self, hex_code):
-        """Обновляет интерфейс и добавляет цвет в историю"""
         self.colorHex.setText(hex_code)
-        self.colorPreview.setStyleSheet(f"background-color: {hex_code}; border-radius: 5px;")
-
-
+        if hasattr(self, 'colorPreview'):
+            self.colorPreview.setStyleSheet(f"background-color: {hex_code}; border-radius: 5px; border: 1px solid #444;")
         self.add_to_history(hex_code)
-        self.copy_to_clipboard()
+        QApplication.clipboard().setText(hex_code)
+        if self.main_app: self.main_app.save_session()
 
-    # --- РАБОТА С ИСТОРИЕЙ ---
+    def pick_color(self):
+        color = QColorDialog.getColor(QtGui.QColor("#303030"), self, "Цвет")
+        if color.isValid(): self.apply_new_color(color.name().upper())
+
+    def use_history_color(self):
+        self.apply_new_color(self.sender().toolTip())
 
     def add_to_history(self, new_color):
-        """Сдвигает историю и добавляет новый цвет в начало"""
-        if new_color in self.history:
-            self.history.remove(new_color)
-
+        if new_color in self.history: self.history.remove(new_color)
         self.history.insert(0, new_color)
-
-        if len(self.history) > 5:
-            self.history.pop()
-
-        self.update_history_ui()
-
-    def update_history_ui(self):
-        """Красит кнопки истории в актуальные цвета"""
+        if len(self.history) > 5: self.history.pop()
         for i, color in enumerate(self.history):
             self.history_buttons[i].setStyleSheet(f"background-color: {color}; border: none; border-radius: 3px;")
             self.history_buttons[i].setToolTip(color)
 
-    def use_history_color(self):
-        """Просто использует цвет из истории без перетасовки кнопок"""
-        button = self.sender()
-        color = button.toolTip()
-        self.colorHex.setText(color)
-        self.colorPreview.setStyleSheet(f"background-color: {color}; border-radius: 5px;")
-
-        # Копируем в буфер
-        self.copy_to_clipboard()
-    # --- СЛУЖЕБНЫЕ ФУНКЦИИ ---
-
-    def copy_to_clipboard(self):
-        """Копирует текст в буфер обмена и показывает статус"""
-        text = self.colorHex.text()
-        if text:
-            QApplication.clipboard().setText(text)
-            self.copyStatusLbl.setText("Copied!")
-            QTimer.singleShot(1500, lambda: self.copyStatusLbl.setText(""))
-
-    def closeEvent(self, event):
-        self.deleteRequest.emit(self)
-        super().closeEvent(event)
-
     def get_content(self):
-        """Возвращает данные для сохранения в JSON"""
-        return {
-            "history": self.history,
-            "current": self.colorHex.text()
-        }
+        return {"history": self.history, "current": self.colorHex.text()}
 
     def load_content(self, data):
-        """Загружает данные из JSON обратно в виджет"""
         if not data: return
-
         self.history = data.get("history", ["#303030"] * 5)
-        last_color = data.get("current", "#303030")
-
-        # Обновляем визуальную часть
-        self.colorHex.setText(last_color)
-        self.colorPreview.setStyleSheet(f"background-color: {last_color}; border-radius: 5px;")
-        self.update_history_ui()
-
-    def show_context_menu(self, pos):
-        menu = QtWidgets.QMenu(self)
-        menu.setStyleSheet("""
-            QMenu { background-color: #18181c; color: white; border: 1px solid #333; }
-            QMenu::item:selected { background-color: #3d3d40; }
-        """)
-
-        show_main = menu.addAction("Открыть меню")
-        menu.addSeparator()
-        copy_hex = menu.addAction("Копировать HEX")
-        remove_widget = menu.addAction("Удалить виджет")
-
-        action = menu.exec(self.mapToGlobal(pos))
-
-        if action == show_main:
-            if hasattr(self, 'main_app') and self.main_app is not None:
-                try:
-                    self.main_app.show()
-                    self.main_app.raise_()
-                    self.main_app.activateWindow()
-                except Exception as e:
-                    print(f"Ошибка вызова меню: {e}")
-        elif action == copy_hex:
-            self.copy_to_clipboard()
-        elif action == remove_widget:
-            if hasattr(self, 'main_app'):
-                self.main_app.on_widget_closed(self)
-            self.close()
+        self.apply_new_color(data.get("current", "#303030"))
