@@ -30,6 +30,7 @@ class MainWindow(QtWidgets.QWidget):
 
         self.load_session()
 
+
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
             child = self.childAt(event.position().toPoint())
