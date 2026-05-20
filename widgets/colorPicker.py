@@ -5,23 +5,31 @@ from PyQt6.QtCore import Qt
 from baseFunctions.mouse import mouseMove
 from baseFunctions.utils import UIScaler
 
+
 class ColorPicker(QtWidgets.QWidget, UIScaler):
     def __init__(self, main_app=None):
         super().__init__()
         self.main_app = main_app
-        # Инициализируем логику перемещения
         self.mouse_move = mouseMove(self)
 
         baseDir = os.path.dirname(__file__)
         uic.loadUi(os.path.join(baseDir, '..', 'data', 'ui', 'colorPicker.ui'), self)
 
+        # Настройки окна: без рамки + всегда внизу
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnBottomHint)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+
+        # Включаем отслеживание мыши для работы курсоров ресайза
+        self.setMouseTracking(True)
         if hasattr(self, 'mainFrame'):
+            self.mainFrame.setMouseTracking(True)
             self.mainFrame.setObjectName("colorMainFrame")
             self.mainFrame.setStyleSheet(
                 "#colorMainFrame { background-color: #18181c; border-radius: 15px; border: 1px solid #333; }")
 
-        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
-        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        # Контекстное меню
+        self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.customContextMenuRequested.connect(self.mouse_move.show_context_menu)
 
         self.history = ["#303030"] * 5
         self.history_buttons = [self.clr1, self.clr2, self.clr3, self.clr4, self.clr5]
@@ -30,7 +38,7 @@ class ColorPicker(QtWidgets.QWidget, UIScaler):
         for btn in self.history_buttons:
             btn.clicked.connect(self.use_history_color)
 
-    # Методы событий мыши перенаправляем в наш класс-помощник
+    # --- СОБЫТИЯ МЫШИ ---
     def mousePressEvent(self, event):
         if not self.mouse_move.handle_press(event):
             super().mousePressEvent(event)
@@ -45,13 +53,16 @@ class ColorPicker(QtWidgets.QWidget, UIScaler):
         super().mouseReleaseEvent(event)
 
     def resizeEvent(self, event):
-        if hasattr(self, 'mainFrame'): self.mainFrame.setGeometry(0, 0, self.width(), self.height())
+        if hasattr(self, 'mainFrame'):
+            self.mainFrame.setGeometry(0, 0, self.width(), self.height())
         super().resizeEvent(event)
 
+    # --- ЛОГИКА ЦВЕТА ---
     def apply_new_color(self, hex_code):
         self.colorHex.setText(hex_code)
         if hasattr(self, 'colorPreview'):
-            self.colorPreview.setStyleSheet(f"background-color: {hex_code}; border-radius: 5px; border: 1px solid #444;")
+            self.colorPreview.setStyleSheet(
+                f"background-color: {hex_code}; border-radius: 5px; border: 1px solid #444;")
         self.add_to_history(hex_code)
         QApplication.clipboard().setText(hex_code)
         if self.main_app: self.main_app.save_session()
