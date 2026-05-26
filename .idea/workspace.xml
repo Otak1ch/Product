@@ -5,16 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fb0e4693-f5f7-403b-8726-c385975ac593" name="Changes" comment="Fixed codes">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Product/data/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/Product/data/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/baseFunctions/mouse.py" beforeDir="false" afterPath="$PROJECT_DIR$/baseFunctions/mouse.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/ui/app.ui" beforeDir="false" afterPath="$PROJECT_DIR$/data/ui/app.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/ui/colorPicker.ui" beforeDir="false" afterPath="$PROJECT_DIR$/data/ui/colorPicker.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/widgets/colorPicker.py" beforeDir="false" afterPath="$PROJECT_DIR$/widgets/colorPicker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/widgets/linkWidget.py" beforeDir="false" afterPath="$PROJECT_DIR$/widgets/linkWidget.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/widgets/todoWidget.py" beforeDir="false" afterPath="$PROJECT_DIR$/widgets/todoWidget.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,6 +87,9 @@
       <workItem from="1778663133887" duration="147000" />
       <workItem from="1778663295701" duration="1005000" />
       <workItem from="1778664420159" duration="18000" />
+      <workItem from="1779260479066" duration="229000" />
+      <workItem from="1779642337917" duration="181000" />
+      <workItem from="1779642645199" duration="68000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed codes">
       <option name="closed" value="true" />
@@ -119,7 +115,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776496021385</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Fixed codes">
+      <option name="closed" value="true" />
+      <created>1779260598219</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1779260598219</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -141,6 +145,7 @@
     <option name="LAST_COMMIT_MESSAGE" value="Fixed codes" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/app_py$app.coverage" NAME="app Coverage Results" MODIFIED="1779642457820" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Project$app.coverage" NAME="app Coverage Results" MODIFIED="1778664430488" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

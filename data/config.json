@@ -1,46 +1,46 @@
 {
     "main_window": {
-        "x": 298,
-        "y": 226
+        "x": 163,
+        "y": 220
     },
     "opened_widgets": [],
     "persistent_data": {
-        "TodoWidget": [
+        "TodoWidget": [],
+        "LinkWidget": [
             {
-                "text": "Егор лох",
-                "done": false
+                "title": "youtube",
+                "url": "https://www.youtube.com/"
             }
         ],
-        "LinkWidget": [],
         "ColorPicker": {
             "history": [
+                "#5F07C1",
                 "#303030",
                 "#AA0000",
                 "",
-                "#303030",
                 "#303030"
             ],
-            "current": "#303030"
+            "current": "#5F07C1"
         }
     },
     "last_settings": {
         "TodoWidget": {
-            "x": 109,
-            "y": 53,
+            "x": 981,
+            "y": 328,
             "w": 290,
             "h": 238
         },
         "LinkWidget": {
-            "x": 795,
-            "y": 108,
-            "w": 223,
-            "h": 218
+            "x": 1035,
+            "y": 588,
+            "w": 254,
+            "h": 280
         },
         "ColorPicker": {
-            "x": 555,
-            "y": 92,
-            "w": 293,
-            "h": 199
+            "x": 972,
+            "y": 126,
+            "w": 394,
+            "h": 304
         }
     }
 }
