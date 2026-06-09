@@ -1,5 +1,14 @@
 import json
 import os
+import sys
+
+def get_save_path(filename="config.json"):
+
+    if hasattr(sys, '_MEIPASS'):
+        exe_dir = os.path.dirname(sys.executable)
+        return os.path.join(exe_dir, filename)
+    return os.path.join(os.path.abspath("."), filename)
+
 
 class DataManager:
     def __init__(self, config_path):
@@ -7,25 +16,25 @@ class DataManager:
         self._ensure_path()
 
     def _ensure_path(self):
-        os.makedirs(os.path.dirname(self.config_path), exist_ok=True)
-
-    import os
-    import json
+        dir_name = os.path.dirname(self.config_path)
+        if dir_name:
+            os.makedirs(dir_name, exist_ok=True)
 
     def load_all_data(self):
-        path = "config.json"
-
-        if not os.path.exists(path):
+        if not os.path.exists(self.config_path):
             default_data = {
                 "main_window": {"x": 100, "y": 100},
                 "opened_widgets": [],
-                "persistent_data": {}
+                "persistent_data": {},
+                "last_positions": {},
+                "last_geometries": {}
             }
-            with open(path, "w", encoding="utf-8") as f:
+            with open(self.config_path, "w", encoding="utf-8") as f:
                 json.dump(default_data, f, ensure_ascii=False, indent=4)
 
-        with open(path, "r", encoding="utf-8") as f:
+        with open(self.config_path, "r", encoding="utf-8") as f:
             return json.load(f)
+
     def save_all_data(self, data):
         with open(self.config_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=4, ensure_ascii=False)

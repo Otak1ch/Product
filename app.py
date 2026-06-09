@@ -1,22 +1,34 @@
 import sys, os
 from PyQt6 import QtWidgets, uic, QtGui, QtCore
 from PyQt6.QtCore import Qt
+from PyQt6.uic import loadUi
 
 from widgets.colorPicker import ColorPicker
 from widgets.todoWidget import TodoWidget
 from widgets.linkWidget import LinkWidget
 from baseFunctions.dataManager import DataManager
 
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+
+def get_save_path(filename="config.json"):
+    if hasattr(sys, '_MEIPASS'):
+        exe_dir = os.path.dirname(sys.executable)
+        return os.path.join(exe_dir, filename)
+    return os.path.join(os.path.abspath("."), filename)
 
 class MainWindow(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
-        baseDir = os.path.dirname(__file__)
-        self.data_manager = DataManager(os.path.join(baseDir, 'data', 'config.json'))
+        path_to_config = get_save_path("config.json")
+        self.data_manager = DataManager(path_to_config)
         self.widgets = []
         self.drag_pos = None
 
-        uic.loadUi(os.path.join(baseDir, 'data', 'ui', 'app.ui'), self)
+        ui_path = resource_path('data/ui/app.ui')
+        loadUi(ui_path, self)
 
 
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.WindowStaysOnBottomHint)
@@ -119,6 +131,7 @@ class MainWindow(QtWidgets.QWidget):
         path = QtGui.QPainterPath()
         path.addRoundedRect(QtCore.QRectF(self.rect()), 20, 20)
         painter.fillPath(path, QtGui.QColor(30, 30, 30, 240))
+
 
 
 if __name__ == "__main__":
