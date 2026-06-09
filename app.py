@@ -38,27 +38,17 @@ class MainWindow(QtWidgets.QWidget):
                 widget.raise_()
                 widget.activateWindow()
                 return widget
-
-
-
         new_widget = widget_class(main_app=self)
-
-
         w_type = widget_class.__name__
-
         last_cfg = self.data_manager.load_all_data().get("last_settings", {}).get(w_type, {})
-
         final_x = x if x is not None else last_cfg.get("x", self.x() + 50)
         final_y = y if y is not None else last_cfg.get("y", self.y() + 50)
         final_w = w if w is not None else last_cfg.get("w", new_widget.width())
         final_h = h if h is not None else last_cfg.get("h", new_widget.height())
-
         new_widget.move(int(final_x), int(final_y))
         new_widget.resize(int(final_w), int(final_h))
-
         if hasattr(new_widget, 'load_content'):
             new_widget.load_content(self.data_manager.get_widget_content(w_type))
-
         new_widget.show()
         self.widgets.append(new_widget)
         self.save_session()

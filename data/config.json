@@ -1,15 +1,48 @@
 {
     "main_window": {
-        "x": 163,
-        "y": 220
+        "x": 233,
+        "y": 90
     },
     "opened_widgets": [],
     "persistent_data": {
-        "TodoWidget": [],
+        "TodoWidget": [
+            {
+                "text": "Написать отчёт",
+                "done": false
+            },
+            {
+                "text": "Тест",
+                "done": false
+            },
+            {
+                "text": "1",
+                "done": false
+            },
+            {
+                "text": "2",
+                "done": false
+            },
+            {
+                "text": "3",
+                "done": false
+            },
+            {
+                "text": "4",
+                "done": false
+            },
+            {
+                "text": "5",
+                "done": false
+            },
+            {
+                "text": "6",
+                "done": false
+            }
+        ],
         "LinkWidget": [
             {
-                "title": "youtube",
-                "url": "https://www.youtube.com/"
+                "title": "Вконтакте",
+                "url": "https://vk.com/feed"
             }
         ],
         "ColorPicker": {
@@ -28,13 +61,13 @@
             "x": 981,
             "y": 328,
             "w": 290,
-            "h": 238
+            "h": 241
         },
         "LinkWidget": {
-            "x": 1035,
-            "y": 588,
-            "w": 254,
-            "h": 280
+            "x": 982,
+            "y": 306,
+            "w": 407,
+            "h": 142
         },
         "ColorPicker": {
             "x": 972,

@@ -9,17 +9,23 @@ class DataManager:
     def _ensure_path(self):
         os.makedirs(os.path.dirname(self.config_path), exist_ok=True)
 
-    def load_all_data(self):
-        if not os.path.exists(self.config_path):
-            return {"main_window": {}, "opened_widgets": [], "persistent_data": {}}
-        try:
-            with open(self.config_path, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                if "persistent_data" not in data: data["persistent_data"] = {}
-                return data
-        except Exception:
-            return {"main_window": {}, "opened_widgets": [], "persistent_data": {}}
+    import os
+    import json
 
+    def load_all_data(self):
+        path = "config.json"
+
+        if not os.path.exists(path):
+            default_data = {
+                "main_window": {"x": 100, "y": 100},
+                "opened_widgets": [],
+                "persistent_data": {}
+            }
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(default_data, f, ensure_ascii=False, indent=4)
+
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
     def save_all_data(self, data):
         with open(self.config_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
